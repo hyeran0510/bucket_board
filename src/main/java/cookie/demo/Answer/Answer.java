@@ -1,11 +1,9 @@
 package cookie.demo.Answer;
 
 import java.time.LocalDateTime;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+
+import cookie.demo.Question.Question;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,6 +20,7 @@ public class Answer {
 
     private LocalDateTime createDate;
 
-
+    @ManyToOne
+    private Question question;
 
 }
