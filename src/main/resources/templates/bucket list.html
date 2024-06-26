@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>버킷리스트</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <style>
+        .bg {
+          background-color : gray;
+         }
+        .title {
+         margin-top: 50px;
+        color: #E8344E;
+        }
+
+        .msg {
+          color: red;
+          margin-bottom: 48px;
+        }
+
+        .bucket {
+          width: 160px;
+          height: 160px;
+          background-size: cover;
+          background-position: center;
+        }
+
+        .bucket {
+      width: 160px;
+      height: 160px;
+      background-size: cover;
+      background-position: center;
+    }
+
+        .img1 {
+      background-image: url("./https://postfiles.pstatic.net/MjAyNDA1MDVfMTM3/MDAxNzE0ODgxODIzMjE4.kE8xjCgtBR_nz2MxEmIz8paWoXVnTQcxf4dpUphaDisg.vkBBorK8V7UuOLfXNjXsKNkhcwKLEu9drWzNS-q-6bAg.JPEG/SE-389D1E46-5B35-42BF-9AF9-0E90C8C51893.jpg?type=w773");
+			color: white;
+    }
+
+
+
+    </style>
+</head>
+<body class="bg center">
+    <h1 class="title"> 쿠키 버킷리스트 </h1>
+    <div class="flex-row">
+        <div class="flex-row wrap">
+            내가 하고시픈게 너가 하구시픈거
+        </div>
+    <div>
+        <div class="bucket img1 center">강릉바다 뛰어놀기</div>
+        <div class="bucket img1 center">계곡가서 뛰어놀기</div>
+        <div class="bucket img1 center">튜브타고 놀기</div>
+        <div class="bucket img1 center">쿠키가족 사진찍기</div>
+        <div class="bucket img1 center">쿠키랑 바다있는곳에서 워케이션</div>
+    </div>
+        <script>
+            // 페이지 로드 시 이전 상태 복원
+                document.addEventListener("DOMContentLoaded", (event) => {
+                  const buckets = document.querySelectorAll(".bucket");
+                  buckets.forEach((bucket, index) => {
+                    // 로컬 스토리지에서 상태 읽기
+                    const isDone = localStorage.getItem("bucket" + index) === "done";
+                    if (isDone) {
+                      bucket.classList.add("done");
+                    }
+                  });
+                });
+
+                // 버킷 리스트 클릭 이벤트
+                const buckets = document.querySelectorAll(".bucket");
+                buckets.forEach((bucket, index) => {
+                  bucket.addEventListener("click", function () {
+                    // 클래스 토글
+                    bucket.classList.toggle("done");
+
+                    // 로컬 스토리지에 상태 저장
+                    if (bucket.classList.contains("done")) {
+                      localStorage.setItem("bucket" + index, "done");
+                    } else {
+                      localStorage.setItem("bucket" + index, "");
+                    }
+                  });
+                });
+        </script>
+
+
+</body>
+</html>
