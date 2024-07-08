@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+<head>
+    <style>
+        .formline {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            padding: 10px;
+        }
+        .formline img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            margin-right: 20px;
+        }
+        .formline .card-body {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Bucket List</h1>
+
+    <div th:if="${not #lists.isEmpty(bucketList)}">
+        <div th:each="bucket : ${bucketList}" class="formline">
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img th:src="${bucket.imageUrl != null ? bucket.imageUrl : '/images/default.png'}" class="card-img-top" alt="이미지">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${bucket.title}">Default Title</h5>
+                            <p class="card-text" th:text="${bucket.items}">Default Description</p>
+                            <p class="card-text" th:text="${#temporals.format(bucket.createDate, 'yyyy-MM-dd HH:mm')}">Creation Date</p>
+                            <div class="btn-group">
+                                <a th:href="@{/bucket/edit/{id}(id=${bucket.id})}" class="btn btn-primary">수정</a>
+                                <a th:href="@{/bucket/delete/{id}(id=${bucket.id})}" class="btn btn-danger">삭제</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:if="${#lists.isEmpty(bucketList)}">
+        <p>등록된 버킷 리스트가 없습니다.</p>
+    </div>
+
+</div>
+</body>
+</html>

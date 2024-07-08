@@ -10,7 +10,10 @@ spring:
   thymeleaf:
     enabled: true
     cache: false
-
+  servlet:
+    multipart:
+      max-file-size: 1MB
+      max-request-size: 1MB
   jpa:
     properties:
       hibernate:
@@ -28,3 +31,6 @@ logging:
         type:
           descriptor:
             sql: trace
+
+upload:
+  dir: /Users/hyeranpakr/Downloads/demo/src/main/resources/static/files/

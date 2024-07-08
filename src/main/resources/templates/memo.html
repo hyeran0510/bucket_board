@@ -1,0 +1,20 @@
+<body>
+<div class="container">
+    <h1>버킷리스트 아이템 추가/수정</h1>
+    <form th:action="@{${bucketForm.id} == null ? '/bucket_list/add' : '/bucket_list/update'}" th:object="${bucketForm}" method="post">
+        <div class="form-group">
+            <label for="title">제목</label>
+            <input type="text" id="title" name="title" class="form-control" th:field="*{title}">
+        </div>
+        <div class="form-group">
+            <label for="items">필요한 물품</label>
+            <input type="text" id="items" name="items" class="form-control" th:field="*{items}">
+        </div>
+        <input type="hidden" th:field="*{id}">
+        <button type="submit" class="btn btn-primary">저장하기</button>
+        <button type="submit" class="btn btn-primary">수정하기</button>
+        <a href="#" class="card-link">Card link</a>
+    </form>
+</div>
+</body>
+</html>
