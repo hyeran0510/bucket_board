@@ -1,11 +1,7 @@
 <!DOCTYPE html>
-<html layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html layout:decorate="~{layout}">
 <head>
-    <meta charset="UTF-8">
-    <title>Bucket List Form</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <style>
-        /* 추가적인 CSS 스타일링 */
         .mybtns {
             display: flex;
             flex-direction: row;
@@ -43,10 +39,8 @@
     </style>
 </head>
 <body>
-<div layout:fragment="content" class="container my-3">
+<div class="container">
     <h5 class="my-3 border-bottom pb-2">버킷리스트 등록</h5>
-
-    <!-- 등록 폼 -->
     <div class="mybtns">
         <button onclick="toggleForm()" class="btn btn-dark">추가/닫기</button>
     </div>
@@ -56,55 +50,34 @@
                 <form th:action="@{/bucket/create}" method="post" enctype="multipart/form-data" class="card mb-3">
                     <div class="mb-3">
                         <label for="title" class="form-label">아이템</label>
-                        <input type="text" id="title" name="title" class="form-control">
+                        <input type="text" id="title" name="title" class="form-control" th:field="${bucketForm.title}">
+                        <div th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="text-danger"></div>
                     </div>
                     <div class="mb-3">
                         <label for="items" class="form-label">내용</label>
-                        <input type="text" id="items" name="items" class="form-control">
+                        <input type="text" id="items" name="items" class="form-control" th:field="${bucketForm.items}">
+                        <div th:if="${#fields.hasErrors('items')}" th:errors="*{items}" class="text-danger"></div>
                     </div>
                     <div class="mb-3">
-                        <img src="https://postfiles.pstatic.net/MjAyNDA3MDVfMzAg/MDAxNzIwMTQ5MDAyOTIy.ROEd0XD1rNyYpy3tzrRvlMAfz367rHHFWIjVHbmxeuUg.X3QlLDEgSwbdWqabBdBV0h6bg13NDSVFOIskDITJKO4g.JPEG/output_850603784.jpg?type=w773" class="card-img-top" alt="이미지">
                         <label for="file" class="form-label">이미지</label>
                         <input type="file" id="file" name="file" class="form-control">
+                        <div th:if="${#fields.hasErrors('file')}" th:errors="*{file}" class="text-danger"></div>
                     </div>
                     <label class="input-group-text" for="inputGroupSelect01">필요 별점</label>
-                    <select class="form-select" id="inputGroupSelect01" name="rating">
-                        <option selected>-- 선택하기 --</option>
+                    <select class="form-select" id="inputGroupSelect01" name="rating" th:field="${bucketForm.rating}">
+                        <option selected disabled>-- 선택하기 --</option>
                         <option value="1">⭐</option>
                         <option value="2">⭐⭐</option>
                         <option value="3">⭐⭐⭐</option>
                         <option value="4">⭐⭐⭐⭐</option>
                         <option value="5">⭐⭐⭐⭐⭐</option>
                     </select>
-                    <button type="submit" class="btn btn-primary">등록하기</button>
+                    <button type="submit" class="btn btn-primary mt-3">등록하기</button>
                 </form>
             </div>
         </div>
     </div>
 
-    <!-- 버킷 리스트 출력 -->
-    <div th:each="bucket : ${bucketList}" class="formline">
-        <img th:src="${bucket.imageUrl}" class="card-img-top" alt="...">
-        <div class="card-body">
-            <h5 class="card-title" th:text="${bucket.title}">진드기 방지</h5>
-            <p class="card-text" th:text="${bucket.items}">약을 먹어도 꼭 목줄에 걸어놓기</p>
-            <div class="btn-group">
-                <a th:href="@{/bucket/edit/{id}(id=${bucket.id})}" class="btn btn-primary">수정</a>
-                <a th:href="@{/bucket/delete/{id}(id=${bucket.id})}" class="btn btn-danger">삭제</a>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    var formDisplayed = false;
-
-    function toggleForm() {
-        var form = document.getElementById("myDIV");
-        form.style.display = formDisplayed ? "none" : "block";
-        formDisplayed = !formDisplayed;
-    }
-</script>
 
 </body>
 </html>

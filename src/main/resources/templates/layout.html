@@ -8,27 +8,76 @@ type html>
     <link rel="stylesheet" type="text/css" th:href="@{/bootstrap.min.css}">
     <!-- sbb CSS -->
     <link rel="stylesheet" type="text/css" th:href="@{/style.css}">
-    <title>Hello, sbb!</title>
+    <title>쿠키네!</title>
 </head>
 <body>
 
-<ul class="nav nav-underline justify-content-center">
-    <li class="nav-item">
-        <a class="nav-link active" href="#">Active</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" th:href="@{/bucket/list}">버킷리스트</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" th:href="@{/question/list}">자유게시판</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-    </li>
-</ul>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .navbar-brand {
+            font-size: 5em;
+        }
+        .nav-center {
+           margin-left: 30px;
+           margin-right: 30px;
+        }
+        .collapse navbar-collapse {
+            margin-left: 30px;
+            margin-right: 30px; }
+    </style>
+</head>
+<body>
+<nav th:fragment="navbarFragment" class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="https://www.google.com/search?sca_esv=951454d4e44807ae&sxsrf=ADLYWIIEvyqAelYttHH-wlzIVzQsbDqATw:1720604500405&q=%EC%BF%A0%ED%82%A4+%EA%B0%95%EC%95%84%EC%A7%80&tbm=isch&source=lnms&fbs=AEQNm0DmKhoYsBCHazhZSCWuALW8SF31RolsN5WQkVDIIfnaCqk5B69_1gWAryNrrvFeWDpFpLv8BtakxgTnntozlHOyHkltqDUaNglN99tfBAIha8ijNofjkWX558Ba0PhRvw9KMeYmOpJOrRbJ3tTDkc3_iFPcAz5rFRZl0tOdzjsyv7H0_0e3jlCtybcN7SjfPFqKm_bq&sa=X&ved=2ahUKEwjjma6gl5yHAxXo4zQHHQ4BBu0Q0pQJegQIEBAB&biw=1470&bih=833&dpr=2">🍪</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="nav-center">
+            <ul class="nav nav-underline justify-content-center">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/bucket/list}">버킷리스트</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/question/list}">자유게시판</a>
+                </li>
+            </ul>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/user/login}">로그인</a>
+                    <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/user/signup}">회원가입</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 
 <!-- 기본 템플릿 안에 삽입될 내용 Start -->
 <th:block layout:fragment="content"></th:block>
 <!-- 기본 템플릿 안에 삽입될 내용 End -->
+<!-- Bootstrap JS -->
+<script th:src="@{/bootstrap.min.js}"></script>
+<!-- 자바스크립트 Start -->
+<th:block layout:fragment="script"></th:block>
+<!-- 자바스크립트 End -->
 </body>
 </html>

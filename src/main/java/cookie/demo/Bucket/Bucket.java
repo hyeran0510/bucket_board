@@ -15,18 +15,15 @@ public class Bucket {
     private Long id;
 
     @Column(length = 200)
+    private String title;
+
+    @Column(length = 200)
     private String items;
 
-    @Column(columnDefinition = "TEXT")
-    private String content;
-
-    private LocalDateTime createDate;
-
     private String fileName;
-
     private String filePath;
-
-    private int rating; // 별점 필드 추가
-
-
+    private int rating;
+    private LocalDateTime createDate;
+    private LocalDateTime modifyDate;
 }
+

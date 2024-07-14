@@ -30,7 +30,7 @@
             <div class="card mb-3">
                 <div class="row g-0">
                     <div class="col-md-4">
-                        <img th:src="${bucket.imageUrl != null ? bucket.imageUrl : '/images/default.png'}" class="card-img-top" alt="이미지">
+                        <img th:src="${bucket.filePath != null ? bucket.filePath : '/images/default.png'}" class="card-img-top" alt="이미지">
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
@@ -38,8 +38,9 @@
                             <p class="card-text" th:text="${bucket.items}">Default Description</p>
                             <p class="card-text" th:text="${#temporals.format(bucket.createDate, 'yyyy-MM-dd HH:mm')}">Creation Date</p>
                             <div class="btn-group">
-                                <a th:href="@{/bucket/edit/{id}(id=${bucket.id})}" class="btn btn-primary">수정</a>
-                                <a th:href="@{/bucket/delete/{id}(id=${bucket.id})}" class="btn btn-danger">삭제</a>
+                                <a th:href="@{|/bucket/modify/${bucket.id}|}" class="btn btn-primary">수정</a>
+                                <a href="javascript:void(0);" th:data-uri="@{|/bucket/delete/${question.id}|}"
+                                   class="btn btn-primary">삭제</a>
                             </div>
                         </div>
                     </div>

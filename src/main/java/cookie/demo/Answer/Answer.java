@@ -1,14 +1,20 @@
 package cookie.demo.Answer;
 
-import java.time.LocalDateTime;
 
+
+import cookie.demo.Comment.Comment;
 import cookie.demo.Question.Question;
+import cookie.demo.User.SiteUser;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Set;
+
 @Setter
+@Getter
 @Entity
 public class Answer {
     @Id
@@ -23,4 +29,15 @@ public class Answer {
     @ManyToOne
     private Question question;
 
+    @ManyToOne
+    private SiteUser author;
+
+    private LocalDateTime modifyDate;
+
+    @ManyToMany
+    Set<SiteUser> voter;
+
+    @OneToMany(mappedBy = "answer")
+    private List<Comment> commentList;
 }
+

@@ -1,7 +1,12 @@
 package cookie.demo.Bucket;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
 
 public interface BucketListRepository extends JpaRepository <Bucket, Long> {
-    Bucket findTopByOrderByIdDesc();
+
+    @Query("SELECT b FROM Bucket b ORDER BY b.createDate DESC")
+    List<Bucket> findAllByOrderByCreateDateDesc();
 }

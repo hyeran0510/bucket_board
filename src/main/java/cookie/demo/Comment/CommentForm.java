@@ -1,5 +1,4 @@
-package cookie.demo.Answer;
-
+package cookie.demo.Comment;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
@@ -7,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AnswerForm {
-    @NotEmpty(message = "내용은 필수항목입니다.")
+public class CommentForm {
+    @NotEmpty(message = "내용을 적어주세요.")
     private String content;
 }

@@ -1,6 +1,7 @@
 package cookie.demo.Bucket;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,10 +10,14 @@ import lombok.Setter;
 public class BucketForm {
 
     private Long id;
+
+    @NotEmpty(message = "제목은 필수사항입니다.")
     private String title;
+
+    @NotEmpty(message = "내용은 필수사항입니다.")
     private String items;
 
-    public int getRating() {
-        return 0;
-    }
+    @NotNull(message = "별점은 필수사항입니다.")
+    private Integer rating;
 }
+
