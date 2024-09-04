@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @RequestMapping("/comment")
@@ -35,30 +36,34 @@ public class CommentController {
         return "comment_form";
     }
 
-    // 질문에 대한 코멘트
     @PreAuthorize("isAuthenticated()")
     @PostMapping(value = "/create/question/{id}")
-    public String createQuestionComment(Model model, @PathVariable("id") Integer id, @Valid CommentForm commentForm,
+    public String createQuestionComment(@PathVariable("id") Integer id, @Valid CommentForm commentForm,
                                         BindingResult bindingResult, Principal principal) {
-        Question question = this.questionService.getQuestion(id);
-        SiteUser user = this.userService.getUser(principal.getName());
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("question", question);
-            return "question_detail";
+        Optional<Question> question = Optional.ofNullable(this.questionService.getQuestion(id));
+        Optional<SiteUser> user = Optional.ofNullable(this.userService.getUser(principal.getName()));
+        if (question.isPresent() && user.isPresent()) {
+            if (bindingResult.hasErrors()) {
+                return "comment_form";
+            }
+            Comment c = this.commentService.create(question.get(), commentForm.getContent(), user.get());
+            return String.format("redirect:/question/detail/%s", c.getQuestionId());
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "entity not found");
         }
-
-        Comment comment = this.commentService.create(question, commentForm.getContent(), user);
-        return String.format("redirect:/question/detail/%s#comment_%s", comment.getQuestion().getId(), comment.getId());
     }
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/modify/{id}")
     public String modifyComment(CommentForm commentForm, @PathVariable("id") Integer id, Principal principal) {
-        Comment comment = this.commentService.getComment(id);
-        if (!comment.getAuthor().getUsername().equals(principal.getName())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정 권한이 없습니다.");
+        Optional<Comment> comment = this.commentService.getComment(id);
+        if (comment.isPresent()) {
+            Comment c = comment.get();
+            if (!c.getAuthor().getUsername().equals(principal.getName())) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
+            }
+            commentForm.setContent(c.getContent());
         }
-        commentForm.setContent(comment.getContent());
         return "comment_form";
     }
 
@@ -69,24 +74,33 @@ public class CommentController {
         if (bindingResult.hasErrors()) {
             return "comment_form";
         }
-        Comment comment = this.commentService.getComment(id);
-        if (!comment.getAuthor().getUsername().equals(principal.getName())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정 권한이 없습니다.");
+        Optional<Comment> comment = this.commentService.getComment(id);
+        if (comment.isPresent()) {
+            Comment c = comment.get();
+            if (!c.getAuthor().getUsername().equals(principal.getName())) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
+            }
+            c = this.commentService.modify(c, commentForm.getContent());
+            return String.format("redirect:/question/detail/%s", c.getQuestionId());
 
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "entity not found");
         }
-        this.commentService.modify(comment, commentForm.getContent());
-        return String.format("redirect:/question/detail/%s", comment.getQuestion().getId(), comment.getId());
     }
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/delete/{id}")
     public String deleteComment(Principal principal, @PathVariable("id") Integer id) {
-        Comment comment = this.commentService.getComment(id);
-        if (!comment.getAuthor().getUsername().equals(principal.getName())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제 권한이 없습니다.");
+        Optional<Comment> comment = this.commentService.getComment(id);
+        if (comment.isPresent()) {
+            Comment c = comment.get();
+            if (!c.getAuthor().getUsername().equals(principal.getName())) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
+            }
+            this.commentService.delete(c);
+            return String.format("redirect:/question/detail/%s", c.getQuestionId());
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "entity not found");
         }
-        this.commentService.delete(comment);
-        return String.format("redirect:/question/detail/%s", comment.getQuestion().getId());
     }
-
 }

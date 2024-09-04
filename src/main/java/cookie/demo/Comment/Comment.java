@@ -35,17 +35,17 @@ public class Comment {
     @ManyToOne
     private Answer answer;
 
-    //수정, 삭제 후 상세페이지로 가는 메서드
     public Integer getQuestionId() {
         Integer result = null;
-        if (this.question != null){
+        if (this.question != null) {
             result = this.question.getId();
         } else if (this.answer != null) {
             result = this.answer.getQuestion().getId();
         }
         return result;
-        }
     }
+}
+
 
 
 

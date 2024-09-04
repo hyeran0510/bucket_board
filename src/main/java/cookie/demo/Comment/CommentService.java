@@ -27,22 +27,15 @@ public class CommentService {
         return c;
     }
 
-    public Comment getComment(Integer id) {
-        Optional<Comment> comment = this.commentRepository.findById(id);
-        if (comment.isPresent()) {
-            return comment.get();
-        } else {
-            throw new DataNotFoundException("댓글을 찾을 수 없습니다!");
-
-        }
-        //return this.commentRepository.findById(id);
+    public Optional<Comment> getComment(Integer id) {
+        return this.commentRepository.findById(id);
     }
-    public Comment
-    modify(Comment cmt, String content) {
-        cmt.setContent(content);
-        cmt.setModifyDate(LocalDateTime.now());
-        cmt = this.commentRepository.save(cmt);
-        return cmt;
+
+    public Comment modify(Comment c, String content) {
+        c.setContent(content);
+        c.setModifyDate(LocalDateTime.now());
+        c = this.commentRepository.save(c);
+        return c;
     }
 
     public void delete(Comment c) {

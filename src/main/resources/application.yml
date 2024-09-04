@@ -1,5 +1,5 @@
 server:
-  port: 8091
+  port: 8085
 
 spring:
   datasource:
@@ -15,14 +15,20 @@ spring:
       max-file-size: 1MB
       max-request-size: 1MB
   jpa:
+    hibernate:
+      ddl-auto: create
     properties:
       hibernate:
         show_sql: true
         format_sql: true
         use_sql_comments: true
         dialect: org.hibernate.dialect.MariaDBDialect
-    hibernate:
-      ddl-auto: update
+
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: true
 
 logging:
   level:
@@ -33,4 +39,7 @@ logging:
             sql: trace
 
 upload:
-  dir: /Users/hyeranpakr/Downloads/demo/src/main/resources/static/files/
+  dir: /Users/hyeranpakr/Downloads/demo/src/main/resources/static/files/dir
+
+itemImgLocation: /Users/hyeranpakr/Downloads/demo/src/main/resources/static/files/
+uploadPath: /Users/hyeranpakr/Downloads/demo/src/main/resources/static/files/upload
